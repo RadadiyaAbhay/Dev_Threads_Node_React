@@ -1,17 +1,23 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-function Posts() {
+
+
+function ProfilePosts() {
 
   let { posts } = useSelector(state => state.postReducer)
   const {user} = useSelector(state => state.userReducer)
 
-  console.log(posts);
+  let newData = posts?.filter((post) =>{
+    return  post?.userId == user?._id;
+  })
+
+
   return (
     <section className="bg-white dark:bg-gray-900 px-10">
       <div className="container md:px-6 pb-10 mx-auto">
         <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2 xl:grid-cols-3">
           {
-            posts?.map((m, index) => {
+            newData?.map((m, index) => {
               const imgpath = `http://localhost:3000/uploads/${m.fileImg}`
               return (
                 <div key={index}>
@@ -48,4 +54,4 @@ function Posts() {
   )
 }
 
-export default Posts
+export default ProfilePosts

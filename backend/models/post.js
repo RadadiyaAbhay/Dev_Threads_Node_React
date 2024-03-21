@@ -3,7 +3,7 @@ const Schema  = mongoose.Schema
 
 const postSchema = new Schema({
     userId:{
-        type : Schema.Types.ObjectId,
+        type : String,
         ref : "users"
     },
     title:{
@@ -14,9 +14,14 @@ const postSchema = new Schema({
         type : String,
         required : true
     },
-    image:{
+    author:{
         type : String,
-        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTcFI6hTmgUtdxQTZktMt5KgEbySf4mtRgfQ&usqp=CAU'
+        required : true
+    },
+    fileImg:{
+        type : String,
+        required : true
+        // default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTcFI6hTmgUtdxQTZktMt5KgEbySf4mtRgfQ&usqp=CAU'
     }
 },{
     timestamps :true

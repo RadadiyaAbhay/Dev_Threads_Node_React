@@ -1,7 +1,31 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-
+import React, { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from '../../services/actions/user.action';
 const Login = () => {
+  let { isLogin } = useSelector(state => state.userReducer);
+
+  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [input , setInput] = useState({
+    email :'',
+    password : ''
+  })
+  const handleInput = (e) =>{
+    setInput({...input , [e.target.name] : e.target.value})
+  }
+  const handleSubmit = () =>{
+    dispatch(loginUser(input));
+    setInput({
+      email :'',
+      password : ''
+    })
+  }
+  useEffect(() =>{
+    if(isLogin){
+      navigate('/profile')
+    }
+  },[isLogin])
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
@@ -15,7 +39,7 @@ const Login = () => {
               </svg>
             </span>
 
-            <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
+            <input type="email" name='email' value={input.email} onChange={handleInput} className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
           </div>
 
           <div className="relative flex items-center mt-4">
@@ -25,11 +49,11 @@ const Login = () => {
               </svg>
             </span>
 
-            <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
+            <input type="password" name='password' value={input.password} onChange={handleInput} className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
           </div>
 
           <div className="mt-6">
-            <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+            <button type='button' className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" onClick={handleSubmit}>
               Sign in
             </button>
 

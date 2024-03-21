@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+
 
 const User = () => {
+  const {user} = useSelector(state => state.userReducer)
   return (
     <>
-      <section className="bg-white mt-8 md:mt-16 dark:bg-gray-900 px-10">
+      <section className="bg-white mt-4 md:mt-8 dark:bg-gray-900 px-10">
         <div className="container md:px-6 mx-auto flex justify-center">
           <div className="flex flex-wrap md:w-6/12 w-full items-center">
             <div className='w-full flex flex-wrap'>
@@ -13,8 +16,8 @@ const User = () => {
                 </div>
               </div>
               <div className='md:w-8/12 pt-5 w-full ps-5'>
-                <h5 className='text-2xl font-bold text-center md:text-start'>Tom Hank</h5>
-                <p className='text-center md:text-start'>Fullstack Developer</p>
+                <h5 className='text-2xl font-bold text-center md:text-start'>{user?.name}</h5>
+                <p className='text-center md:text-start'>{user?.email}</p>
               </div>
             </div>
             <div className='w-full flex pt-5'>

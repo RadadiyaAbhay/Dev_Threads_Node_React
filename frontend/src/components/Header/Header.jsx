@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaRegUserCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom'
+import { signOut } from '../../services/actions/user.action';
+import { MdLogout } from "react-icons/md";
 
 const Header = () => {
-    let isLogin = true;
+    let { isLogin } = useSelector(state => state.userReducer);
+    let dispatch = useDispatch()
     let navigate = useNavigate()
+    let handleSignOut = () =>{
+        localStorage.removeItem('token');
+        dispatch(signOut())
+        navigate('/login')
+    }
+    useEffect(() =>{
+        if(!isLogin){
+          navigate('/login')
+        }
+      },[isLogin])
     return (
         <nav x-data="{ isOpen: false }" className="relative bg-white shadow dark:bg-gray-800">
             <div className="container px-6 py-4 mx-auto">
@@ -26,11 +40,14 @@ const Header = () => {
                         </button>
                         {
                             isLogin ?
-                                <button type="button" onClick={() =>{ navigate('/profile')}} className="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
-                                    <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
-                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" className="object-cover w-full h-full" alt="avatar" />
-                            </div>
-                                </button>
+                                <>
+                                    <button type="button" onClick={() => { navigate('/profile') }} className="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
+                                        <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" className="object-cover w-full h-full" alt="avatar" />
+                                        </div>
+                                    </button>
+                                    <button type="button" onClick={handleSignOut}><MdLogout className='text-xl ms-5'/></button>
+                                </>
                                 :
                                 <NavLink to="/login">
                                     <FaRegUserCircle className='text-2xl text-slate-700' />
